@@ -1,25 +1,53 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import "./components/List.js";
+import List from "./components/List.js";
+import React, { useState } from "react";
 
-function App() {
+export default function App(props) {
+  const [lists, setLists] = useState([
+    {
+      name: "myList",
+      cards: Array(),
+    },
+  ]);
+
+  const [listName, setListName] = useState("");
+
+  const handleSubmit = (event) => {
+    setLists([...lists, { name: listName, cards: [] }]);
+    event.preventDefault();
+    setListName("");
+  };
+
+  const handleChange = (event) => {
+    setListName(event.target.value);
+  };
+
+  const handleNameChange = (name, index) => {
+    const listsCopy = [...lists];
+    listsCopy[index].name = name;
+    setLists(listsCopy);
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {lists.map((item, index) => (
+        <List
+          key={item.index}
+          name={item.name}
+          cards={item.cards}
+          handleNameChange={(name) => handleNameChange(name, index)}
+        />
+      ))}
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          name="listName"
+          value={listName}
+          onChange={handleChange}
+        />
+        <input type="submit" value="Submit" />
+      </form>
     </div>
   );
 }
-
-export default App;
