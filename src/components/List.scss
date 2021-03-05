@@ -1,0 +1,35 @@
+@import "~bulma/bulma";
+.marginRight {
+  margin-right: 4px;
+  font-size: 14px;
+}
+
+.addButton {
+  cursor: pointer;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+}
+
+.addButton:hover {
+  background-color: #a9b3c4;
+}
+
+.card {
+  margin-bottom: 8px;
+  min-height: 32px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  padding-left: 8px;
+}
+
+.cardList {
+  margin-top: 10px;
+}
+
+.header {
+  font-size: 14px;
+  padding-left: 6px;
+}
