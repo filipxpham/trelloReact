@@ -8,6 +8,7 @@ export default function List(props) {
   const [listName, setListName] = useState(props.name);
   const [cardName, setCardName] = useState("");
   const [isEditing, setEditing] = useState(false);
+  const [isAddingCard, setIsAddingCard] = useState(false);
 
   const handleChange = (event) => {
     setCardName(event.target.value);
@@ -21,11 +22,17 @@ export default function List(props) {
     setCards([...cards, { name: cardName }]);
     event.preventDefault();
     setCardName("");
+    setIsAddingCard(false);
   };
 
   const changeEditMode = () => {
     setListName(props.name);
     setEditing(!isEditing);
+    console.log("edit");
+  };
+
+  const changeCardAddEditMode = () => {
+    setIsAddingCard(!isAddingCard);
     console.log("edit");
   };
 
@@ -58,8 +65,35 @@ export default function List(props) {
   const renderDefaultView = () => {
     return (
       <>
-        <b onDoubleClick={changeEditMode}>{props.name}</b>
+        <b class="header" onDoubleClick={changeEditMode}>
+          {props.name}
+        </b>
       </>
+    );
+  };
+
+  const renderAddCardView = () => {
+    return (
+      <>
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            name="cardName"
+            value={cardName}
+            onChange={handleChange}
+          />
+          <input type="submit" value="Submit" />
+        </form>
+      </>
+    );
+  };
+
+  const renderDefaultCardView = () => {
+    return (
+      <div onClick={changeCardAddEditMode} className="addButton">
+        <AiOutlinePlus className="marginRight" />
+        Přidat další kartu
+      </div>
     );
   };
 
@@ -67,24 +101,18 @@ export default function List(props) {
     <div className="List">
       {isEditing ? renderEditView() : renderDefaultView()}
       <br />
-      {cards.map((item, index) => (
-        <Card
-          key={item.index}
-          name={item.name}
-          handleNameChange={(name) => handleNameChange(name, index)}
-        />
-      ))}
-      <AiOutlinePlus className="marginRight" />
-      Přidat další kartu
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="cardName"
-          value={cardName}
-          onChange={handleChange}
-        />
-        <input type="submit" value="Submit" />
-      </form>
+      <div class="cardList">
+        {cards.map((item, index) => (
+          <div class="card">
+            <Card
+              key={item.index}
+              name={item.name}
+              handleNameChange={(name) => handleNameChange(name, index)}
+            />
+          </div>
+        ))}
+      </div>
+      {isAddingCard ? renderAddCardView() : renderDefaultCardView()}
     </div>
   );
 }

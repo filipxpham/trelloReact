@@ -42,7 +42,7 @@ export default function Navbar(params) {
         </div>
 
         <div className="navbar-item">
-          <b class="white">PhamRello</b>
+          <b class="white">Prello</b>
         </div>
 
         <div className="navbar-end">
