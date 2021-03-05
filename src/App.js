@@ -31,25 +31,33 @@ export default function App(props) {
   };
 
   return (
-    <div className="App">
-      <Navbar />
-      {lists.map((item, index) => (
-        <List
-          key={item.index}
-          name={item.name}
-          cards={item.cards}
-          handleNameChange={(name) => handleNameChange(name, index)}
-        />
-      ))}
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="listName"
-          value={listName}
-          onChange={handleChange}
-        />
-        <input type="submit" value="Submit" />
-      </form>
+    <div className="bg-image">
+      <div className="App">
+        <Navbar />
+        <div className="columns">
+          {lists.map((item, index) => (
+            <div className="column">
+              <div className="box">
+                <List
+                  key={item.index}
+                  name={item.name}
+                  cards={item.cards}
+                  handleNameChange={(name) => handleNameChange(name, index)}
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            name="listName"
+            value={listName}
+            onChange={handleChange}
+          />
+          <input type="submit" value="Submit" />
+        </form>
+      </div>
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
-import "./List.css";
 import Card from "./Card";
+import "./List.scss";
+import { AiOutlineMore, AiOutlinePlus } from "react-icons/ai";
 
 export default function List(props) {
   const [cards, setCards] = useState(props.cards);
@@ -64,7 +65,6 @@ export default function List(props) {
 
   return (
     <div className="List">
-      <br />
       {isEditing ? renderEditView() : renderDefaultView()}
       <br />
       {cards.map((item, index) => (
@@ -74,7 +74,8 @@ export default function List(props) {
           handleNameChange={(name) => handleNameChange(name, index)}
         />
       ))}
-      <br />
+      <AiOutlinePlus className="marginRight" />
+      Přidat další kartu
       <form onSubmit={handleSubmit}>
         <input
           type="text"

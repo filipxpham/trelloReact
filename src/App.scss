@@ -1,1 +1,33 @@
 @import "~bulma/bulma";
+.block:not(:last-child) {
+  margin-bottom: 1.5rem;
+}
+
+html {
+  background-image: url("./images/background.jpg");
+  /* Full height */
+  height: 100%;
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.bg-image {
+}
+
+.columns {
+  padding: 0px 4px;
+}
+.column {
+  max-width: 20%;
+  .box {
+    background-color: #ebecf0;
+    padding: 10px;
+  }
+}
+
+div.columns {
+  margin-top: 5px;
+}
