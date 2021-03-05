@@ -1,6 +1,7 @@
-import "./App.css";
+import "./App.scss";
 import "./components/List.js";
 import List from "./components/List.js";
+import Navbar from "./components/Navbar.js";
 import React, { useState } from "react";
 
 export default function App(props) {
@@ -31,6 +32,7 @@ export default function App(props) {
 
   return (
     <div className="App">
+      <Navbar />
       {lists.map((item, index) => (
         <List
           key={item.index}

@@ -1,0 +1,19 @@
+@import "~bulma/bulma";
+nav.navbar {
+  max-height: 52px;
+  background-color: #026aa7;
+  padding: 0px 2px;
+  .navbar-item.white {
+    border-radius: 5px;
+    margin: 5px 2px;
+    background-color: hsla(0, 0%, 100%, 0.3);
+    color: white;
+    padding: 10px 14px;
+  }
+  .left-margin {
+    margin-left: 5px;
+  }
+  .white {
+    color: white;
+  }
+}
