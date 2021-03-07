@@ -2,6 +2,7 @@ import React, { useState, useRef } from "react";
 import Card from "./Card";
 import "./List.scss";
 import { AiOutlineMore, AiOutlinePlus } from "react-icons/ai";
+import AddButton from "./AddButton";
 
 export default function List(props) {
   const [cards, setCards] = useState(props.cards);
@@ -10,19 +11,30 @@ export default function List(props) {
   const [isEditing, setEditing] = useState(false);
   const [isAddingCard, setIsAddingCard] = useState(false);
 
-  const handleChange = (event) => {
-    setCardName(event.target.value);
-  };
-
   const handleCardNameChange = (event) => {
     setListName(event.target.value);
   };
 
   const handleSubmit = (event) => {
+    let cardName = "";
+    if (typeof event == "string") {
+      cardName = event;
+    } else {
+      cardName = event.target.cardName.value;
+      event.preventDefault();
+    }
     setCards([...cards, { name: cardName }]);
-    event.preventDefault();
-    setCardName("");
+
     setIsAddingCard(false);
+  };
+
+  const handleOnBlurAddList = (event) => {
+    if (event.target.value) {
+      console.log(event.target.value);
+      handleSubmit(event.target.value);
+    } else {
+      setIsAddingCard(false);
+    }
   };
 
   const changeEditMode = () => {
@@ -65,7 +77,7 @@ export default function List(props) {
   const renderDefaultView = () => {
     return (
       <>
-        <b class="header" onDoubleClick={changeEditMode}>
+        <b className="header" onDoubleClick={changeEditMode}>
           {props.name}
         </b>
       </>
@@ -76,13 +88,13 @@ export default function List(props) {
     return (
       <>
         <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            name="cardName"
-            value={cardName}
-            onChange={handleChange}
+          <AddButton
+            inputName="cardName"
+            defaultValue={""}
+            placeholder="Zadej název pro tuto kartu..."
+            handleOnBlur={handleOnBlurAddList}
+            buttonText="Přidat kartu"
           />
-          <input type="submit" value="Submit" />
         </form>
       </>
     );
@@ -101,9 +113,9 @@ export default function List(props) {
     <div className="List">
       {isEditing ? renderEditView() : renderDefaultView()}
       <br />
-      <div class="cardList">
+      <div className="cardList">
         {cards.map((item, index) => (
-          <div class="card">
+          <div className="card">
             <Card
               key={item.index}
               name={item.name}

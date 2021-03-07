@@ -37,12 +37,13 @@ export default function Navbar(params) {
           </a>
 
           <a href="/" className="navbar-item white">
-            <AiFillProject color="white" /> <b class="left-margin">Nástěnky</b>
+            <AiFillProject color="white" />{" "}
+            <b className="left-margin">Nástěnky</b>
           </a>
         </div>
 
         <div className="navbar-item">
-          <b class="white">Prello</b>
+          <b className="white">Prello</b>
         </div>
 
         <div className="navbar-end">

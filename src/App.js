@@ -4,6 +4,7 @@ import List from "./components/List.js";
 import Navbar from "./components/Navbar.js";
 import React, { useState } from "react";
 import { AiOutlineMore, AiOutlinePlus } from "react-icons/ai";
+import AddButton from "./components/AddButton";
 
 export default function App(props) {
   const [lists, setLists] = useState([
@@ -12,23 +13,25 @@ export default function App(props) {
       cards: Array(),
     },
   ]);
-  const [listName, setListName] = useState("");
   const [isAddingList, setIsAddingList] = useState(false);
 
   const handleSubmit = (event) => {
+    let listName = "";
+    if (typeof event == "string") {
+      listName = event;
+    } else {
+      listName = event.target.listName.value;
+      event.preventDefault();
+    }
     setLists([...lists, { name: listName, cards: [] }]);
-    event.preventDefault();
-    setListName("");
+
     setIsAddingList(false);
   };
 
-  const handleChange = (event) => {
-    setListName(event.target.value);
-  };
-
   const handleOnBlurAddList = (event) => {
-    if (listName.length > 0) {
-      handleSubmit(event);
+    if (event.target.value) {
+      console.log(event.target.value);
+      handleSubmit(event.target.value);
     } else {
       setIsAddingList(false);
     }
@@ -58,20 +61,12 @@ export default function App(props) {
     return (
       <>
         <form onSubmit={handleSubmit}>
-          <input
-            className="input is-focused"
-            autoFocus
-            onBlur={handleOnBlurAddList}
-            type="text"
-            name="listName"
-            value={listName}
-            onChange={handleChange}
+          <AddButton
+            inputName="listName"
+            defaultValue={""}
             placeholder="Zadej jméno sloupce..."
-          />
-          <input
-            type="submit"
-            value="Přidat sloupec"
-            className="button is-primary"
+            handleOnBlur={handleOnBlurAddList}
+            buttonText="Přidat sloupec"
           />
         </form>
       </>
