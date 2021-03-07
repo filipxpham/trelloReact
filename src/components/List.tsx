@@ -1,37 +1,49 @@
-import React, { useState, useRef } from "react";
-import Card from "./Card";
-import "./List.scss";
-import { AiOutlineMore, AiOutlinePlus } from "react-icons/ai";
-import AddButton from "./AddButton";
+import React, { useState, useRef } from 'react';
+import Card from './Card';
+import './List.scss';
+import { AiOutlineMore, AiOutlinePlus } from 'react-icons/ai';
+import AddButton from './AddButton';
 
-export default function List(props) {
-  const [cards, setCards] = useState(props.cards);
+interface ListPropsInterface {
+  name: string;
+  cards: Array<CardInterface>;
+  handleNameChange: (e: string) => void;
+}
+
+export interface CardInterface {
+  name: string;
+  prevState?: null;
+  handleNameChange?: (e: string) => void;
+}
+
+export default function List(props: ListPropsInterface) {
+  const [cards, setCards] = useState<Partial<CardInterface[]>>(props.cards || []);
   const [listName, setListName] = useState(props.name);
-  const [cardName, setCardName] = useState("");
+  const [cardName, setCardName] = useState('');
   const [isEditing, setEditing] = useState(false);
   const [isAddingCard, setIsAddingCard] = useState(false);
 
-  const handleCardNameChange = (event) => {
-    setListName(event.target.value);
+  const handleCardNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setListName(e.target.value);
   };
 
-  const handleSubmit = (event) => {
-    let cardName = "";
-    if (typeof event == "string") {
-      cardName = event;
+  const handleSubmit = (e: React.ChangeEvent<HTMLFormElement> | string) => {
+    let cardName = '';
+    if (typeof e == 'string') {
+      cardName = e;
     } else {
-      cardName = event.target.cardName.value;
-      event.preventDefault();
+      cardName = e.target['cardName'].value;
+      e.preventDefault();
     }
     setCards([...cards, { name: cardName }]);
 
     setIsAddingCard(false);
   };
 
-  const handleOnBlurAddList = (event) => {
-    if (event.target.value) {
-      console.log(event.target.value);
-      handleSubmit(event.target.value);
+  const handleOnBlurAddList = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.value) {
+      console.log(e.target.value);
+      handleSubmit(e.target.value);
     } else {
       setIsAddingCard(false);
     }
@@ -40,12 +52,12 @@ export default function List(props) {
   const changeEditMode = () => {
     setListName(props.name);
     setEditing(!isEditing);
-    console.log("edit");
+    console.log('edit');
   };
 
   const changeCardAddEditMode = () => {
     setIsAddingCard(!isAddingCard);
-    console.log("edit");
+    console.log('edit');
   };
 
   const updateListName = () => {
@@ -53,21 +65,17 @@ export default function List(props) {
     props.handleNameChange(listName);
   };
 
-  const handleNameChange = (name, index) => {
+  const handleNameChange = (name: string, index: number) => {
     const cardsCopy = [...cards];
-    cardsCopy[index].name = name;
+    let changedObject = cardsCopy[index];
+    if (changedObject) changedObject.name = name;
     setCards(cardsCopy);
   };
 
   const renderEditView = () => {
     return (
       <>
-        <input
-          type="text"
-          value={listName}
-          name="listName"
-          onChange={handleCardNameChange}
-        ></input>
+        <input type="text" value={listName} name="listName" onChange={handleCardNameChange}></input>
         <button onClick={changeEditMode}>X</button>
         <button onClick={updateListName}>OK</button>
       </>
@@ -87,10 +95,10 @@ export default function List(props) {
   const renderAddCardView = () => {
     return (
       <>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={(e: React.ChangeEvent<HTMLFormElement>): void => handleSubmit(e)}>
           <AddButton
             inputName="cardName"
-            defaultValue={""}
+            defaultValue={''}
             placeholder="Zadej název pro tuto kartu..."
             handleOnBlur={handleOnBlurAddList}
             buttonText="Přidat kartu"
@@ -114,13 +122,9 @@ export default function List(props) {
       {isEditing ? renderEditView() : renderDefaultView()}
       <br />
       <div className="cardList">
-        {cards.map((item, index) => (
+        {cards.map((item: CardInterface, index: number) => (
           <div className="card">
-            <Card
-              key={item.index}
-              name={item.name}
-              handleNameChange={(name) => handleNameChange(name, index)}
-            />
+            <Card key={index} name={item.name} handleNameChange={(name: string) => handleNameChange(name, index)} />
           </div>
         ))}
       </div>
