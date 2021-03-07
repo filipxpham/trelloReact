@@ -1,26 +1,26 @@
-import "./App.scss";
-import "./components/List.js";
-import List from "./components/List.js";
-import Navbar from "./components/Navbar.js";
-import React, { useState } from "react";
-import { AiOutlineMore, AiOutlinePlus } from "react-icons/ai";
-import AddButton from "./components/AddButton";
+import './App.scss';
+import './components/List.js';
+import List from './components/List.js';
+import Navbar from './components/Navbar.js';
+import React, { useState } from 'react';
+import { AiOutlineMore, AiOutlinePlus } from 'react-icons/ai';
+import AddButton from './components/AddButton';
 
-export default function App(props) {
+export default function App() {
   const [lists, setLists] = useState([
     {
-      name: "myList",
+      name: 'myList',
       cards: Array(),
     },
   ]);
   const [isAddingList, setIsAddingList] = useState(false);
 
-  const handleSubmit = (event) => {
-    let listName = "";
-    if (typeof event == "string") {
+  const handleSubmit = (event: React.ChangeEvent<HTMLFormElement> | string) => {
+    let listName = '';
+    if (typeof event == 'string') {
       listName = event;
     } else {
-      listName = event.target.listName.value;
+      listName = event.target['listName'].value;
       event.preventDefault();
     }
     setLists([...lists, { name: listName, cards: [] }]);
@@ -28,7 +28,7 @@ export default function App(props) {
     setIsAddingList(false);
   };
 
-  const handleOnBlurAddList = (event) => {
+  const handleOnBlurAddList = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.value) {
       console.log(event.target.value);
       handleSubmit(event.target.value);
@@ -39,10 +39,10 @@ export default function App(props) {
 
   const changeListAddEditMode = () => {
     setIsAddingList(!isAddingList);
-    console.log("edit");
+    console.log('edit');
   };
 
-  const handleNameChange = (name, index) => {
+  const handleNameChange = (name: string, index: number) => {
     const listsCopy = [...lists];
     listsCopy[index].name = name;
     setLists(listsCopy);
@@ -60,10 +60,10 @@ export default function App(props) {
   const renderAddListView = () => {
     return (
       <>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={(e: React.ChangeEvent<HTMLFormElement>): void => handleSubmit(e)}>
           <AddButton
             inputName="listName"
-            defaultValue={""}
+            defaultValue={''}
             placeholder="Zadej jméno sloupce..."
             handleOnBlur={handleOnBlurAddList}
             buttonText="Přidat sloupec"
@@ -82,10 +82,10 @@ export default function App(props) {
             <div className="column">
               <div className="box">
                 <List
-                  key={item.index}
+                  key={index}
                   name={item.name}
                   cards={item.cards}
-                  handleNameChange={(name) => handleNameChange(name, index)}
+                  handleNameChange={(name: string) => handleNameChange(name, index)}
                 />
               </div>
             </div>
