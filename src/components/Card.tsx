@@ -1,43 +1,50 @@
 import React, { useState } from 'react';
 
-export interface CardInterface {
-  name: string;
-  prevState?: null;
-  handleNameChange?: (e: string) => void;
+export interface CardProps {
+	name: string;
+	prevState?: null;
+	handleNameChange?: (e: string) => void;
 }
 
-export default function Card(props: CardInterface) {
-  const [isEditing, setEditing] = useState(false);
-  const [cardName, setCardName] = useState('');
+const Card: React.FC<CardProps> = (props: CardProps) => {
+	const [isEditing, setEditing] = useState(false);
+	const [cardName, setCardName] = useState('');
 
-  const handleCardNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setCardName(event.target.value);
-  };
+	const handleCardNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		setCardName(event.target.value);
+	};
 
-  const changeEditMode = () => {
-    setCardName(props.name);
-    setEditing(!isEditing);
-    console.log('edit');
-  };
+	const changeEditMode = () => {
+		setCardName(props.name);
+		setEditing(!isEditing);
+	};
 
-  const updateCardName = () => {
-    setEditing(false);
-    if (props.handleNameChange) props.handleNameChange(cardName);
-  };
+	const updateCardName = () => {
+		setEditing(false);
+		if (props.handleNameChange) {
+			props.handleNameChange(cardName);
+		}
+	};
 
-  const renderEditView = () => {
-    return (
-      <div>
-        <input type="text" value={cardName} name="cardName" onChange={handleCardNameChange}></input>
-        <button onClick={changeEditMode}>X</button>
-        <button onClick={updateCardName}>OK</button>
-      </div>
-    );
-  };
+	const renderEditView = () => {
+		return (
+			<div>
+				<input type="text" value={cardName} name="cardName" onChange={handleCardNameChange} />
+				<button type="submit" onClick={changeEditMode}>
+					X
+				</button>
+				<button type="button" onClick={updateCardName}>
+					OK
+				</button>
+			</div>
+		);
+	};
 
-  const renderDefaultView = () => {
-    return <div onDoubleClick={changeEditMode}>{props.name}</div>;
-  };
+	const renderDefaultView = () => {
+		return <div onDoubleClick={changeEditMode}>{props.name}</div>;
+	};
 
-  return isEditing ? renderEditView() : renderDefaultView();
-}
+	return isEditing ? renderEditView() : renderDefaultView();
+};
+
+export default Card;
