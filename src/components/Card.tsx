@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
-import { CardInterface } from './List';
 
-
+export interface CardInterface {
+  name: string;
+  prevState?: null;
+  handleNameChange?: (e: string) => void;
+}
 
 export default function Card(props: CardInterface) {
   const [isEditing, setEditing] = useState(false);

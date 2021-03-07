@@ -1,19 +1,13 @@
 import React, { useState, useRef } from 'react';
-import Card from './Card';
-import './List.scss';
+import Card, { CardInterface } from './Card';
 import { AiOutlineMore, AiOutlinePlus } from 'react-icons/ai';
 import AddButton from './AddButton';
+import './List.scss';
 
-interface ListPropsInterface {
+export interface ListPropsInterface {
   name: string;
   cards: Array<CardInterface>;
   handleNameChange: (e: string) => void;
-}
-
-export interface CardInterface {
-  name: string;
-  prevState?: null;
-  handleNameChange?: (e: string) => void;
 }
 
 export default function List(props: ListPropsInterface) {
