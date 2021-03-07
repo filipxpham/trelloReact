@@ -22,7 +22,7 @@ export default function Card(props: CardInterface) {
 
   const updateCardName = () => {
     setEditing(false);
-    props.handleNameChange(cardName);
+    if (props.handleNameChange) props.handleNameChange(cardName);
   };
 
   const renderEditView = () => {
